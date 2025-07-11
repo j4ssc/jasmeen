@@ -1,0 +1,37 @@
+{
+  "employees": [
+    {
+      "id": "2219",
+      "name": "jas",
+      "email": "jasmeenkhatun337@gmail.com",
+      "department": "marketing",
+      "designation": "senior",
+      "userType": "hr",
+      "salary": "100000",
+      "password": "hello",
+      "date": "2025-07-07"
+    },
+    {
+      "id": "5c61",
+      "name": "rushika",
+      "email": "abcd@gmail.com",
+      "department": "marketing",
+      "designation": "senior",
+      "userType": "hr",
+      "salary": "100000000",
+      "password": "hello",
+      "date": "2025-07-08"
+    },
+    {
+      "id": "120d",
+      "name": "neema",
+      "email": "nem@gmail.com",
+      "department": "marketing",
+      "designation": "midlevel",
+      "userType": "hr",
+      "salary": "40000",
+      "password": "hello",
+      "date": "2025-07-08"
+    }
+  ]
+}
