@@ -1,59 +1,84 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 export default function LoginForm() {
-    const [email, setEmail]=useState("");
-    const [password, setPassword]=useState("");
-    const navigate = useNavigate();
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!email|| !password){
-            alert("Email or password is missing");
-            return;
-        }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!emailRegex.test(email)){
-            alert(
-                "Please enter a valid email address");
-            return;
-        }
-        if (email !== "eve.holt@reqres.in" || password !== "cityslicka") {
-      alert(
-        "For demo login, use:\nEmail: eve.holt@reqres.in\nPassword: cityslicka" );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      alert("Email or password is missing");
       return;
     }
-    fetch("https://reqres.in/api/login",{
-        method: "POST",
-        headers: {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Invalid email address");
+      return;
+    }
+
+    const isDemoAdmin =
+      email === "eve.holt@reqres.in" && password === "cityslicka";
+
+    try {
+      if (isDemoAdmin) {
+        const reqresResp = await fetch("https://reqres.in/api/login", {
+          method: "POST",
+          headers: {
             "Content-Type": "application/json",
             "x-api-key": "reqres-free-v1",
-        },
-        body: JSON.stringify({email, password}),
-    })
-    .then((resp) => {
-        if(!resp) {
-            throw new Error("Login Failed");
-        }else{
-            return resp.json();
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (!reqresResp.ok) {
+          throw new Error("Reqres login failed");
         }
-    })
-    .then((data) => {
+
+        const data = await reqresResp.json();
         localStorage.setItem("token", data.token);
-        alert("Login Succeed");
-        navigate  ("/home");
-        setEmail("");
-        setPassword("");
-    })
-    .catch((error)=> {
-        console.log("Login Error:", error);
-        alert(error.message);
-    });
-};
-return(
- <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+
+        const demoUser = { email, role: "admin" };
+        localStorage.setItem("user", JSON.stringify(demoUser));
+        alert("Demo Admin login success");
+        return navigate("/home");
+      }
+
+      // Otherwise → check your local JSON Server for user
+      const localResp = await fetch(
+        `http://localhost:5000/employees?email=${email}&password=${password}`
+      );
+      const users = await localResp.json();
+
+      if (users.length === 0) {
+        alert("User not found or password incorrect");
+        return;
+      }
+
+      const user = users[0];
+      localStorage.setItem("token", "local-login-success");
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: user.email, role: user.userType })
+      );
+
+      alert("Local login success");
+      navigate("/home");
+    } catch (error) {
+      console.error("Login error:", error);
+      alert(error.message || "Something went wrong");
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <form
-       className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm"
+        className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm"
         onSubmit={handleSubmit}
-        >
+      >
         <div className="flex justify-center mb-4 text-black-600 text-4xl">
           <span>👤</span>
         </div>
@@ -87,5 +112,5 @@ return(
         </button>
       </form>
     </div>
-)
+  );
 }
