@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Sidebar from "../components/sidebar";
 import Topbar from "../components/home/topbar";
+import LogoutButton from "../components/utils/logout";
 
 export default function Home() {
     return(

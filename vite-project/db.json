@@ -43,6 +43,17 @@
       "salary": "10000",
       "password": "hi",
       "date": "2025-07-15"
+    },
+    {
+      "id": "b891",
+      "name": "neems",
+      "email": "neem@gmail.com",
+      "department": "marketing",
+      "designation": "midlevel",
+      "userType": "employee",
+      "salary": "100000",
+      "password": "your",
+      "date": "2025-07-15"
     }
   ]
 }

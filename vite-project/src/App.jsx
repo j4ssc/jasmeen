@@ -5,12 +5,15 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import Dashboard from './pages/dashboard';
 import ProtectedRoute from './components/utils/protectedroute';
+import Unauthorized from './components/utils/unauthorize';
+
 function App() {
 
   return (
     <>
       <Routes>
         <Route path="/" element={<LoginForm/>} />
+      
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="home" element={
           <ProtectedRoute>
