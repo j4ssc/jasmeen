@@ -32,6 +32,17 @@
       "salary": "40000",
       "password": "hello",
       "date": "2025-07-08"
+    },
+    {
+      "id": "86cc",
+      "name": "alzina",
+      "email": "alz@gmail.com",
+      "department": "sales",
+      "designation": "junior",
+      "userType": "employee",
+      "salary": "10000",
+      "password": "hi",
+      "date": "2025-07-15"
     }
   ]
 }
